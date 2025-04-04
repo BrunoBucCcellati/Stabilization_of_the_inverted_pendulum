@@ -40,7 +40,7 @@ if initial_angle_offset >= 90 or initial_angle_offset <= -90:
         "{}.".format(initial_angle_offset))
 
 initial_angle = np.pi - np.radians(initial_angle_offset)
-initial_angular_velocity = 1  # Начальная угловая скорость(рад./с)
+initial_angular_velocity = 0  # Начальная угловая скорость(рад./с)
 
 initial_u0 = 1  # Начальное положение опоры(м)
 if initial_u0 < 0:
@@ -48,7 +48,7 @@ if initial_u0 < 0:
         "Задайте начальное положение опоры в метрах (u0 > 0), введенное значение: "
         "{}.".format(initial_u0))
 
-initial_u0_speed = 1  # Начальная скорость опоры(м/с)
+initial_u0_speed = 0  # Начальная скорость опоры(м/с)
 
 initial_angle2_offset = 5  # Начальное отклонение от вертикали для второго звена(в градусах)
 if angle == "small_angle" and initial_angle2_offset > 5:
@@ -149,10 +149,15 @@ if number_of_links == 2:
                 #a1 = g
                 #a = 3 * g
 
-                b1 = -10
-                b = 25 / g + 10
-                a1 = -35 - 4 * g
-                a = 35 + 3 * g + 12 / g
+                #b1 = 10
+                #b = -1
+                #a1 = 20
+                #a = -5
+
+                b1 = 10
+                b = -25 / g - 10
+                a1 = 35 + 4 * g
+                a = -35 - 3 * g - 12 / g
 
                 ##def objective(trial):
                 ##a = trial.suggest_float("c", 2 * g, 4 * g)
@@ -304,10 +309,9 @@ def inverted_pendulum(t, state):
         if stabilization == "upper_position_and_stand":
             x_ddot += c * x + d * x_dot
         if angle == "small_angle":
-            theta_ddot = (2 * g * np.sin(theta - np.pi) - g *
-                          np.sin(theta2 - np.pi) - 2 * x_ddot / l) / (2 * l)
-            theta2_ddot = (g * np.sin(theta - np.pi) -
-                           g * np.sin(theta2 - np.pi) + x_ddot / l) / l
+            theta2_ddot = -2 * g * (theta - np.pi) / l + 2 * g * (theta2 -
+                                                                  np.pi) / l
+            theta_ddot = x_ddot / l + g * (theta2 - np.pi) / l - theta2_ddot
         if angle == "any_angle":
             theta_ddot = (x_ddot * np.cos(theta2 - np.pi) +
                           l * theta2_ddot * np.cos((theta - np.pi) -
