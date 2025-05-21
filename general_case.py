@@ -145,44 +145,10 @@ if number_of_links == 2:
     if stabilization == "only_upper_position":
         if angle == "small_angle":
             if mode == "auto":
-                #b = 0
-                #a1 = g
-                #a = 3 * g
-
-                #b1 = 10
-                #b = -1
-                #a1 = 20
-                #a = -5
-
                 b1 = 10
                 b = -25 / g - 10
                 a1 = 35 + 4 * g
                 a = -35 - 3 * g - 12 / g
-
-                ##def objective(trial):
-                ##a = trial.suggest_float("c", 2 * g, 4 * g)
-                ##b = trial.suggest_float("b", betta / (m * l),
-                ##2 * betta / (m * l))
-                ##return a + b + 2 * l
-
-                ##study = iOpt.create_study()
-                ##study.optimize(objective=objective,
-                ##solver_parameters=iOpt.SolverParameters(
-                ##r=3,
-                ##eps=0.01,
-                ##iters_limit=100,
-                ##refine_solution=True))
-                ##a = study.Best_float_params()[0]
-                ##b = study.Best_float_params()[1]
-                #a1 = study.Best_values() + h
-                ##a1 = study.Best_values()
-                ##if a + b <= 3 * l:
-                ##k = (3 * l + h) / (a + b)
-                ##a *= 2 * k
-                ##b *= 2 * k
-                #a1 = a + b + 2 * l
-                ##if a1 <= a + b + 2 * l:
-                ##a1 = a + b + 2 * l + h
             if mode == "user_input":
                 if a + b <= 3 * l or a1 <= a + b + 2 * l:
                     raise Exception(
